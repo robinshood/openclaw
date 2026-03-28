@@ -1,0 +1,103 @@
+{
+  "companyId": "912345678",
+  "systems": [
+    {
+      "name": "TripleTex",
+      "category": "ERP/Accounting",
+      "version": "Current",
+      "users": 7,
+      "monthlyCost": 5000,
+      "currency": "NOK",
+      "purpose": "Core ERP — accounting, invoicing, bank integration, VAT",
+      "apiAvailable": true,
+      "criticalSystem": true
+    },
+    {
+      "name": "Microsoft 365",
+      "category": "Productivity",
+      "version": "Business Basic",
+      "users": 7,
+      "monthlyCost": 1400,
+      "currency": "NOK",
+      "purpose": "Email (Outlook), file storage (OneDrive/SharePoint), Teams",
+      "apiAvailable": true,
+      "criticalSystem": true
+    },
+    {
+      "name": "Excel",
+      "category": "Spreadsheet / Ad-hoc",
+      "version": "Microsoft 365",
+      "users": 7,
+      "monthlyCost": 0,
+      "currency": "NOK",
+      "purpose": "Payroll calculations, client reports, ad-hoc analysis, macros",
+      "apiAvailable": false,
+      "criticalSystem": false,
+      "notes": "Heavy reliance on custom macros (maintained by Erik). Knowledge risk."
+    },
+    {
+      "name": "Bank portal (various)",
+      "category": "Banking",
+      "version": "N/A",
+      "users": 3,
+      "monthlyCost": 0,
+      "currency": "NOK",
+      "purpose": "Manual bank reconciliation, payment processing",
+      "apiAvailable": true,
+      "criticalSystem": true,
+      "notes": "Multiple bank portals for different client banks. No unified integration."
+    },
+    {
+      "name": "Altinn",
+      "category": "Government/Regulatory",
+      "version": "N/A",
+      "users": 3,
+      "monthlyCost": 0,
+      "currency": "NOK",
+      "purpose": "MVA-melding, A-melding, tax filing, regulatory submissions",
+      "apiAvailable": true,
+      "criticalSystem": true
+    },
+    {
+      "name": "File server (local)",
+      "category": "Storage",
+      "version": "Windows Server 2019",
+      "users": 7,
+      "monthlyCost": 500,
+      "currency": "NOK",
+      "purpose": "Client document storage, file archive",
+      "apiAvailable": false,
+      "criticalSystem": true,
+      "notes": "No structured DMS. Folder-based organization. No search. Backup via NAS."
+    },
+    {
+      "name": "Scanner (Fujitsu)",
+      "category": "Hardware",
+      "version": "ScanSnap iX1600",
+      "users": 7,
+      "monthlyCost": 0,
+      "currency": "NOK",
+      "purpose": "Scanning paper vouchers and receipts",
+      "apiAvailable": false,
+      "criticalSystem": false
+    }
+  ],
+  "integrations": [
+    { "from": "TripleTex", "to": "Bank portal", "type": "Manual export/import", "quality": "Low" },
+    { "from": "TripleTex", "to": "Altinn", "type": "Built-in (partial)", "quality": "Medium" },
+    { "from": "Scanner", "to": "TripleTex", "type": "Manual upload", "quality": "Low" },
+    { "from": "Excel", "to": "TripleTex", "type": "Copy-paste", "quality": "Low" },
+    { "from": "Email", "to": "File server", "type": "Manual save", "quality": "Low" }
+  ],
+  "architectureGaps": [
+    "No API-first architecture — most integrations are manual",
+    "No automated data pipeline between systems",
+    "No structured document management system",
+    "No customer self-service portal",
+    "No centralized reporting/dashboard solution",
+    "Heavy Excel dependency for payroll and ad-hoc analysis",
+    "No single sign-on (SSO) across systems"
+  ],
+  "totalMonthlyCost": 6900,
+  "totalAnnualCost": 82800
+}

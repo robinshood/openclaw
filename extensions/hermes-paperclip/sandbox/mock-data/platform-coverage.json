@@ -1,0 +1,175 @@
+{
+  "companyId": "912345678",
+  "companyName": "Systemregnskap AS",
+  "generatedAt": "2026-03-28T00:00:00.000Z",
+  "coverageMatrix": [
+    {
+      "processId": "proc-01",
+      "processName": "Bilagshåndtering",
+      "platforms": [
+        {
+          "tool": "Propell.ai",
+          "coverageLevel": "partial",
+          "coveragePercent": 35,
+          "notes": "23-40% no-touch rate for voucher matching"
+        },
+        {
+          "tool": "TripleTex",
+          "coverageLevel": "partial",
+          "notes": "Manual posting after matching"
+        }
+      ],
+      "overallCoverage": "partial",
+      "gap": "60-77% of vouchers still require manual handling"
+    },
+    {
+      "processId": "proc-02",
+      "processName": "Bankavstemming",
+      "platforms": [
+        {
+          "tool": "Propell.ai",
+          "coverageLevel": "full",
+          "notes": "Automated bank statement matching"
+        },
+        { "tool": "TripleTex", "coverageLevel": "partial", "notes": "Basic bank integration" }
+      ],
+      "overallCoverage": "full",
+      "gap": null
+    },
+    {
+      "processId": "proc-03",
+      "processName": "MVA-rapportering",
+      "platforms": [
+        {
+          "tool": "TripleTex",
+          "coverageLevel": "partial",
+          "notes": "Calculates MVA but submission is manual"
+        }
+      ],
+      "overallCoverage": "partial",
+      "gap": "Automated MVA-melding submission to Altinn"
+    },
+    {
+      "processId": "proc-04",
+      "processName": "Lønn",
+      "platforms": [
+        {
+          "tool": "Sanna",
+          "coverageLevel": "full",
+          "notes": "Full payroll with Norwegian compliance"
+        }
+      ],
+      "overallCoverage": "full",
+      "gap": null,
+      "note": "Not currently using Sanna — using Excel. Migration required."
+    },
+    {
+      "processId": "proc-05",
+      "processName": "Årsoppgjør",
+      "platforms": [
+        {
+          "tool": "TripleTex",
+          "coverageLevel": "partial",
+          "notes": "Handles accounting side but requires manual judgment"
+        }
+      ],
+      "overallCoverage": "partial",
+      "gap": "Complex decision-making, client-specific rules, tacit knowledge — cannot fully automate"
+    },
+    {
+      "processId": "proc-06",
+      "processName": "Kundefakturering",
+      "platforms": [
+        {
+          "tool": "TripleTex",
+          "coverageLevel": "full",
+          "notes": "Full invoicing with recurring invoice support"
+        }
+      ],
+      "overallCoverage": "full",
+      "gap": null,
+      "note": "Opportunity: set up automated recurring invoices"
+    },
+    {
+      "processId": "proc-07",
+      "processName": "Innbetalingskontroll",
+      "platforms": [
+        {
+          "tool": "TripleTex",
+          "coverageLevel": "partial",
+          "notes": "Shows open invoices but no automated follow-up"
+        }
+      ],
+      "overallCoverage": "partial",
+      "gap": "Automated payment reminders and overdue follow-up"
+    },
+    {
+      "processId": "proc-08",
+      "processName": "Kunderegistrering",
+      "platforms": [
+        {
+          "tool": "TripleTex",
+          "coverageLevel": "partial",
+          "notes": "Manual data entry for new customers"
+        }
+      ],
+      "overallCoverage": "partial",
+      "gap": "Customer self-service portal for onboarding"
+    },
+    {
+      "processId": "proc-09",
+      "processName": "Dokumenthåndtering",
+      "platforms": [],
+      "overallCoverage": "none",
+      "gap": "No DMS in place. Need structured document management with search, versioning, and access control."
+    },
+    {
+      "processId": "proc-10",
+      "processName": "Klientrapportering",
+      "platforms": [
+        { "tool": "TripleTex", "coverageLevel": "partial", "notes": "Basic report export" },
+        {
+          "tool": "PowerBI",
+          "coverageLevel": "full",
+          "notes": "Full dashboard capability if connected"
+        }
+      ],
+      "overallCoverage": "partial",
+      "gap": "Automated report generation and delivery. PowerBI dashboard setup."
+    },
+    {
+      "processId": "proc-11",
+      "processName": "Selvangivelser",
+      "platforms": [
+        {
+          "tool": "TripleTex",
+          "coverageLevel": "partial",
+          "notes": "Accounting data for tax returns"
+        }
+      ],
+      "overallCoverage": "partial",
+      "gap": "Regulatory complexity requires expert knowledge. Document tacit knowledge from Arne."
+    },
+    {
+      "processId": "proc-12",
+      "processName": "Kredittkort/utlegg",
+      "platforms": [
+        {
+          "tool": "Propell.ai",
+          "coverageLevel": "full",
+          "notes": "Full expense and credit card reconciliation"
+        }
+      ],
+      "overallCoverage": "full",
+      "gap": null
+    }
+  ],
+  "summary": {
+    "fullyCovered": 4,
+    "partiallyCovered": 7,
+    "uncovered": 1,
+    "automationCandidates": ["proc-01", "proc-03", "proc-07", "proc-08", "proc-09", "proc-10"],
+    "knowledgeCaptureRequired": ["proc-05", "proc-11"],
+    "migrationRequired": ["proc-04"]
+  }
+}

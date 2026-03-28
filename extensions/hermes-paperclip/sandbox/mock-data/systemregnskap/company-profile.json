@@ -1,0 +1,95 @@
+{
+  "orgNumber": "912345678",
+  "name": "Systemregnskap AS",
+  "sector": "Accounting / Regnskap",
+  "revenue": 20000000,
+  "currency": "NOK",
+  "employeeCount": 7,
+  "customerCount": 450,
+  "board": [
+    { "name": "Ole Ramstad", "role": "Daglig leder / CEO", "since": "2005" },
+    { "name": "Kari Nordheim", "role": "Styreleder / Board Chair", "since": "2010" }
+  ],
+  "employees": [
+    {
+      "name": "Ole Ramstad",
+      "role": "Daglig leder",
+      "age": 58,
+      "knowledgeDomains": ["Client relations", "Year-end closing", "Tax strategy"],
+      "retirementRisk": false,
+      "keyPerson": true
+    },
+    {
+      "name": "Bjørg Hansen",
+      "role": "Senior regnskapsfører",
+      "age": 67,
+      "knowledgeDomains": ["Bilagshåndtering", "MVA-rapportering", "Årsoppgjør", "Lønn"],
+      "retirementRisk": true,
+      "keyPerson": true
+    },
+    {
+      "name": "Arne Johansen",
+      "role": "Senior regnskapsfører",
+      "age": 68,
+      "knowledgeDomains": ["Bankavstemming", "Kundefakturering", "Selvangivelser"],
+      "retirementRisk": true,
+      "keyPerson": true
+    },
+    {
+      "name": "Lise Berge",
+      "role": "Regnskapsfører",
+      "age": 42,
+      "knowledgeDomains": ["Bilagshåndtering", "Innbetalingskontroll"],
+      "retirementRisk": false,
+      "keyPerson": false
+    },
+    {
+      "name": "Thomas Vik",
+      "role": "Regnskapsfører",
+      "age": 35,
+      "knowledgeDomains": ["Lønn", "Kredittkort/utlegg", "Dokumenthåndtering"],
+      "retirementRisk": false,
+      "keyPerson": false
+    },
+    {
+      "name": "Maria Strand",
+      "role": "Junior regnskapsfører",
+      "age": 28,
+      "knowledgeDomains": ["Kunderegistrering", "Klientrapportering"],
+      "retirementRisk": false,
+      "keyPerson": false
+    },
+    {
+      "name": "Erik Dahl",
+      "role": "IT-ansvarlig / kontorsjef",
+      "age": 45,
+      "knowledgeDomains": ["TripleTex administration", "IT infrastructure", "Excel macros"],
+      "retirementRisk": false,
+      "keyPerson": false
+    }
+  ],
+  "risks": [
+    {
+      "type": "KEY_PERSON",
+      "description": "Ole Ramstad holds most client relationships and strategic knowledge. Single point of failure.",
+      "severity": "HIGH",
+      "mitigationStrategy": "Knowledge capture sessions, client relationship documentation"
+    },
+    {
+      "type": "GENERATIONAL_CLIFF",
+      "description": "Bjørg Hansen (67) and Arne Johansen (68) carry critical institutional knowledge and will retire within 1-3 years.",
+      "severity": "CRITICAL",
+      "mitigationStrategy": "Urgent knowledge transfer program, process documentation, hire replacements early"
+    },
+    {
+      "type": "EFFICIENCY_PARADOX",
+      "description": "Revenue per employee is 2.5-2.8M NOK, below industry benchmark of 3.0M+. High revenue but low per-capita efficiency suggests manual processes.",
+      "severity": "MEDIUM",
+      "mitigationStrategy": "Process automation to increase throughput without adding headcount"
+    }
+  ],
+  "revenuePerEmployee": 2857143,
+  "efficiencyNotes": "20M NOK / 7 employees = 2.86M/employee. Industry benchmark for well-run accounting firms is 3.0-3.5M. Gap suggests automation opportunity.",
+  "dataSource": "Brønnøysundregistrene API + Due Diligence documents",
+  "lastUpdated": "2026-03-28T00:00:00.000Z"
+}

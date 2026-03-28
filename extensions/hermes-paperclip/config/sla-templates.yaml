@@ -1,0 +1,59 @@
+# SLA templates per company type
+# Applied during onboarding based on portfolio company sector
+
+templates:
+  accounting:
+    name: "Accounting Firm SLA"
+    description: "SLA template for accounting/regnskap firms"
+    kpis:
+      - metric: "Revenue per employee"
+        unit: "MNOK"
+        target_min: 3.0
+        warning_threshold: 2.5
+      - metric: "Customer churn rate"
+        unit: "percent"
+        target_max: 5.0
+        warning_threshold: 3.0
+      - metric: "Process time per customer"
+        unit: "hours/month"
+        target_max: 10.0
+        warning_threshold: 12.0
+      - metric: "Voucher no-touch rate"
+        unit: "percent"
+        target_min: 40.0
+        warning_threshold: 25.0
+      - metric: "VAT report accuracy"
+        unit: "percent"
+        target_min: 99.5
+        warning_threshold: 98.0
+    response_times:
+      CRITICAL: "15 minutes"
+      HIGH: "1 hour"
+      MEDIUM: "4 hours"
+      LOW: "24 hours"
+
+  hospitality:
+    name: "Hospitality Operator SLA"
+    description: "SLA template for hotel operators"
+    kpis:
+      - metric: "RevPAR"
+        unit: "NOK"
+        target_min: 800.0
+        warning_threshold: 600.0
+      - metric: "Occupancy rate"
+        unit: "percent"
+        target_min: 70.0
+        warning_threshold: 55.0
+      - metric: "ADR (Average Daily Rate)"
+        unit: "NOK"
+        target_min: 1200.0
+        warning_threshold: 900.0
+      - metric: "Guest satisfaction score"
+        unit: "1-10"
+        target_min: 8.0
+        warning_threshold: 7.0
+    response_times:
+      CRITICAL: "15 minutes"
+      HIGH: "30 minutes"
+      MEDIUM: "2 hours"
+      LOW: "8 hours"
