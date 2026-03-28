@@ -53,6 +53,8 @@ export type { Process } from "./src/shared/models/process.ts";
 export type { Gap, GapReport } from "./src/shared/models/gap.ts";
 export type { Sprint, SprintPlan } from "./src/shared/models/sprint.ts";
 export type { Service, ServiceCatalog } from "./src/shared/models/service.ts";
+export type { TechReviewCheckResult, TechReviewReport } from "./src/shared/models/tech-review.ts";
+export { computeComplianceScore, countByFailureMode } from "./src/shared/models/tech-review.ts";
 
 // Notion
 export { NotionClient, createMockTransport } from "./src/shared/notion/client.ts";
