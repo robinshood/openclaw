@@ -38,3 +38,6 @@ export { calculatePriority } from "./lib/priority-scorer.ts";
 // Config
 export { AGENTS } from "./config/agents.config.ts";
 export { getTripletexBase, ENDPOINTS } from "./config/tripletex.config.ts";
+
+// Orchestration (Paperclip AI)
+export * as orchestration from "./orchestration/index.ts";

@@ -4,10 +4,11 @@ import { AuditTrail } from "./components/AuditTrail";
 import { ClientsPanel } from "./components/ClientsPanel";
 import { DataQualityPanel } from "./components/DataQualityPanel";
 import { Header } from "./components/Header";
+import { OrchestrationPanel } from "./components/OrchestrationPanel";
 import { VoucherQueue } from "./components/VoucherQueue";
 import { colors, font, spacing } from "./theme";
 
-type Tab = "overview" | "vouchers" | "clients" | "audit";
+type Tab = "overview" | "orchestration" | "vouchers" | "clients" | "audit";
 
 export function App() {
   const [activeTab, setActiveTab] = useState<Tab>("overview");
@@ -36,6 +37,7 @@ export function App() {
         {(
           [
             { key: "overview", label: "Oversikt" },
+            { key: "orchestration", label: "Orkestrering" },
             { key: "vouchers", label: "Bilag" },
             { key: "clients", label: "Klienter" },
             { key: "audit", label: "Audit Trail" },
@@ -76,6 +78,7 @@ export function App() {
             <DataQualityPanel />
           </div>
         )}
+        {activeTab === "orchestration" && <OrchestrationPanel />}
         {activeTab === "vouchers" && <VoucherQueue />}
         {activeTab === "clients" && <ClientsPanel />}
         {activeTab === "audit" && <AuditTrail />}

@@ -238,6 +238,149 @@ export const mockVoucherQueue: VoucherQueueItem[] = [
   },
 ];
 
+// --- Orchestration (Paperclip AI) ---
+
+export interface BudgetOverview {
+  agentId: string;
+  agentName: string;
+  monthlyLimitNOK: number;
+  spentNOK: number;
+  status: "OK" | "WARNING" | "SOFT_STOP" | "HARD_STOP";
+}
+
+export interface GoalOverview {
+  id: string;
+  description: string;
+  department: "hermes" | "paperclip" | "company";
+  metrics: { name: string; target: number; current: number; unit: string }[];
+}
+
+export interface DispatchRecord {
+  taskId: string;
+  agentId: string;
+  agentName: string;
+  trigger: string;
+  status: "completed" | "running" | "failed" | "pending";
+  startedAt: string;
+  completedAt?: string;
+  itemsProcessed: number;
+  costNOK: number;
+}
+
+export const mockBudgets: BudgetOverview[] = [
+  {
+    agentId: "paperclip-wash-01",
+    agentName: "Renvasken",
+    monthlyLimitNOK: 5000,
+    spentNOK: 1250,
+    status: "OK",
+  },
+  {
+    agentId: "hermes-bilag-01",
+    agentName: "Bilagsansen",
+    monthlyLimitNOK: 15000,
+    spentNOK: 8400,
+    status: "OK",
+  },
+  {
+    agentId: "hermes-rapport-01",
+    agentName: "Portalklar",
+    monthlyLimitNOK: 20000,
+    spentNOK: 5000,
+    status: "OK",
+  },
+  {
+    agentId: "paperclip-onboard-01",
+    agentName: "Velkomst",
+    monthlyLimitNOK: 5000,
+    spentNOK: 450,
+    status: "OK",
+  },
+  {
+    agentId: "paperclip-tid-01",
+    agentName: "Tidsvokter",
+    monthlyLimitNOK: 5000,
+    spentNOK: 4600,
+    status: "WARNING",
+  },
+];
+
+export const mockGoals: GoalOverview[] = [
+  {
+    id: "company-mission",
+    description: "Automate Norwegian accounting with compliance and audit traceability",
+    department: "company",
+    metrics: [
+      { name: "Automasjonsgrad", target: 90, current: 72, unit: "%" },
+      { name: "Compliance", target: 100, current: 98, unit: "%" },
+    ],
+  },
+  {
+    id: "bilagsansen-automation",
+    description: "Automate 90%+ of credit card vouchers",
+    department: "hermes",
+    metrics: [
+      { name: "GREEN-rate", target: 90, current: 85, unit: "%" },
+      { name: "Tidsbesparelse", target: 80, current: 75, unit: "%" },
+    ],
+  },
+  {
+    id: "renvasken-quality",
+    description: "Maintain 85%+ clean rate across all sources",
+    department: "paperclip",
+    metrics: [
+      { name: "Clean rate", target: 85, current: 95.5, unit: "%" },
+      { name: "BLOCK leakage", target: 0, current: 0, unit: "stk" },
+    ],
+  },
+];
+
+export const mockDispatches: DispatchRecord[] = [
+  {
+    taskId: "task-001",
+    agentId: "paperclip-wash-01",
+    agentName: "Renvasken",
+    trigger: "pre-pipeline",
+    status: "completed",
+    startedAt: "2026-03-28T09:15:00Z",
+    completedAt: "2026-03-28T09:15:12Z",
+    itemsProcessed: 247,
+    costNOK: 0.5,
+  },
+  {
+    taskId: "task-002",
+    agentId: "hermes-bilag-01",
+    agentName: "Bilagsansen",
+    trigger: "webhook:bank-statement",
+    status: "completed",
+    startedAt: "2026-03-28T08:30:00Z",
+    completedAt: "2026-03-28T08:31:45Z",
+    itemsProcessed: 15,
+    costNOK: 30,
+  },
+  {
+    taskId: "task-003",
+    agentId: "paperclip-tid-01",
+    agentName: "Tidsvokter",
+    trigger: "cron:daily",
+    status: "completed",
+    startedAt: "2026-03-28T06:00:00Z",
+    completedAt: "2026-03-28T06:02:30Z",
+    itemsProcessed: 156,
+    costNOK: 1,
+  },
+  {
+    taskId: "task-004",
+    agentId: "paperclip-wash-01",
+    agentName: "Renvasken",
+    trigger: "pre-pipeline",
+    status: "running",
+    startedAt: "2026-03-28T09:45:00Z",
+    itemsProcessed: 0,
+    costNOK: 0,
+  },
+];
+
 export const mockClients: ClientOverview[] = [
   {
     orgNr: "123456789",

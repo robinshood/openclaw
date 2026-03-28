@@ -1,0 +1,79 @@
+# Ett Capital AS — Systemregnskap Automation Company
+# Paperclip AI orchestration config
+# https://github.com/paperclipai/paperclip
+
+company:
+  name: "Ett Capital Systemregnskap"
+  orgNr: "932446701"
+  mission: >
+    Automate Norwegian accounting workflows for SMBs — from credit card
+    vouchers to monthly client reports — with human-in-the-loop approval,
+    Bokforingsloven compliance, and full audit traceability.
+  values:
+    - "Data quality first — every record passes Renvasken before any agent touches it"
+    - "Human stays in the loop — G4 gate blocks all write operations until approved"
+    - "Norwegian compliance — Bokforingsloven §5/§7 validated at Layer 4"
+    - "Transparent reasoning — every action logged with confidence score and rationale"
+
+  departments:
+    hermes:
+      name: "Hermes — Portfolio Intelligence"
+      description: "Client-facing agents that produce deliverables (reports, vouchers)"
+      head: "hermes-bilag-01"
+      budget:
+        monthlyLimitNOK: 50000
+        alertThresholdPct: 80
+      agents:
+        - bilagsansen
+        - portalklar
+
+    paperclip:
+      name: "Paperclip — Infrastructure Automation"
+      description: "Internal agents that maintain data quality, onboard clients, and track time"
+      head: "paperclip-wash-01"
+      budget:
+        monthlyLimitNOK: 30000
+        alertThresholdPct: 80
+      agents:
+        - renvasken
+        - velkomst
+        - tidsvokter
+
+  governance:
+    g4Gate:
+      enabled: true
+      sandboxAutoApprove: true
+      productionRequiresHuman: true
+      approvalTimeoutMinutes: 1440  # 24 hours
+    auditTrail:
+      enabled: true
+      retentionDays: 2555  # 7 years (Bokforingsloven)
+      storage: "supabase"
+    rollback:
+      enabled: true
+      maxRollbackDepth: 5
+
+  dataFlow:
+    # The iron rule: Source -> Renvasken -> Supabase (clean) -> Agent -> Output
+    pipeline: "source -> renvasken -> supabase -> agent -> output"
+    qualityThreshold: 0.85  # 85% clean rate required to proceed
+    blockOnDirty: true
+
+  integrations:
+    tripletex:
+      baseUrl: "https://api-test.tripletex.tech/v2"
+      environment: "sandbox"
+      sessionTokenRotationMinutes: 60
+    supabase:
+      tables:
+        - data_quality_log
+        - audit_trail
+        - voucher_queue
+        - client_profiles
+        - time_entries
+        - monthly_reports
+        - onboarding_checklists
+        - agent_runs
+        - kpi_snapshots
+    brreg:
+      baseUrl: "https://data.brreg.no/enhetsregisteret/api"
