@@ -1,0 +1,57 @@
+# Agile AI Framework configuration
+# Controls sprint execution for Paperclip's integration work
+
+sprints:
+  duration_weeks: 2
+  max_automations_per_sprint: 3
+  max_iterations_per_automation: 3 # Karpathy loop: program.md → build → eval
+  escalation_after_max_iterations: true
+
+phases:
+  - phase: WORKSHOP
+    sprint_number: 1
+    goals:
+      - "Map processes in detail with process owners"
+      - "Define KPIs and success criteria"
+      - "Identify automation candidates"
+    go_no_go: false # No gate after workshop
+
+  - phase: POC
+    sprint_number: 2
+    goals:
+      - "Build simplest automation (proof of concept)"
+      - "Validate with real data in sandbox"
+      - "Measure time savings"
+    go_no_go: true # CRITICAL gate: kill if no measurable improvement
+    go_no_go_criteria:
+      - criterion: "Measurable time reduction"
+        threshold: ">= 20% reduction in process time"
+      - criterion: "Data accuracy"
+        threshold: ">= 95% accuracy vs manual process"
+      - criterion: "Stakeholder approval"
+        threshold: "Process owner signs off"
+
+  - phase: MVP
+    sprint_number: 3
+    goals:
+      - "Deploy working automation to sandbox"
+      - "Establish data pipeline"
+      - "Train users"
+    go_no_go: false
+
+  - phase: SCALE
+    sprint_number: 4
+    goals:
+      - "Production deployment (after human approval)"
+      - "Governance setup"
+      - "ROI measurement"
+      - "Identify next use case"
+    go_no_go: false
+
+sandbox:
+  required_before_production: true
+  min_sandbox_days: 7
+  eval_criteria:
+    - "Output matches expected results"
+    - "No data integrity issues"
+    - "Performance within acceptable bounds"
