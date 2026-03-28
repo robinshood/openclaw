@@ -3,6 +3,7 @@ packages:
   - ui
   - packages/*
   - extensions/*
+  - extensions/hermes-paperclip/app
 
 onlyBuiltDependencies:
   - "@lydell/node-pty"
