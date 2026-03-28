@@ -1,0 +1,52 @@
+{
+  "fullResultSize": 5,
+  "from": 0,
+  "count": 5,
+  "values": [
+    {
+      "id": "tx-001",
+      "date": "2026-03-15",
+      "amount": -1250.0,
+      "description": "SAS EUROBONUS",
+      "merchantName": "SAS Eurobonus",
+      "accountNumber": "2900",
+      "reconciled": false
+    },
+    {
+      "id": "tx-002",
+      "date": "2026-03-16",
+      "amount": -450.0,
+      "description": "UBER *TRIP",
+      "merchantName": "Uber",
+      "accountNumber": "2900",
+      "reconciled": false
+    },
+    {
+      "id": "tx-003",
+      "date": "2026-03-17",
+      "amount": -2800.0,
+      "description": "SCANDIC HOTELS",
+      "merchantName": "Scandic Hotels",
+      "accountNumber": "2900",
+      "reconciled": false
+    },
+    {
+      "id": "tx-004",
+      "date": "2026-03-18",
+      "amount": -890.0,
+      "description": "RESTAURANT LOFOTEN",
+      "merchantName": "Restaurant Lofoten",
+      "accountNumber": "2900",
+      "reconciled": false
+    },
+    {
+      "id": "tx-005",
+      "date": "2026-03-19",
+      "amount": -3500.0,
+      "description": "UNKNOWN MERCHANT XYZ",
+      "merchantName": "Unknown Merchant XYZ",
+      "accountNumber": "2900",
+      "reconciled": false
+    }
+  ]
+}

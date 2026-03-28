@@ -1,0 +1,71 @@
+{
+  "classificationRules": [
+    {
+      "pattern": "SAS|Norwegian|Widerøe|flybillett",
+      "accountNr": 7140,
+      "description": "Reisekostnad",
+      "mvaRate": 0
+    },
+    {
+      "pattern": "restaurant|cafe|bar|bistro|dining",
+      "accountNr": 7100,
+      "description": "Representasjon",
+      "mvaRate": 25
+    },
+    {
+      "pattern": "taxi|uber|bolt|lyft",
+      "accountNr": 7140,
+      "description": "Reisekostnad",
+      "mvaRate": 25
+    },
+    {
+      "pattern": "hotel|scandic|thon|radisson|comfort",
+      "accountNr": 7140,
+      "description": "Reisekostnad",
+      "mvaRate": 12
+    },
+    {
+      "pattern": "kontor|staples|elkjøp|clas ohlson|jula",
+      "accountNr": 6540,
+      "description": "Inventar og utstyr",
+      "mvaRate": 25
+    },
+    {
+      "pattern": "bensin|circle|shell|esso|uno-x|st1",
+      "accountNr": 7000,
+      "description": "Drivstoff",
+      "mvaRate": 25
+    },
+    {
+      "pattern": "parkering|apcoa|easypark|autopay",
+      "accountNr": 7140,
+      "description": "Reisekostnad",
+      "mvaRate": 25
+    },
+    {
+      "pattern": "telefon|telenor|telia|ice|mycall",
+      "accountNr": 6900,
+      "description": "Telefon",
+      "mvaRate": 25
+    },
+    { "pattern": "porto|posten|postnord", "accountNr": 6940, "description": "Porto", "mvaRate": 0 },
+    {
+      "pattern": "forsikring|if|gjensidige|tryg|storebrand",
+      "accountNr": 6310,
+      "description": "Forsikring",
+      "mvaRate": 0
+    },
+    {
+      "pattern": "abonnement|subscription|lisens|license",
+      "accountNr": 6540,
+      "description": "Programvare",
+      "mvaRate": 25
+    }
+  ],
+  "fallback": {
+    "accountNr": 7700,
+    "description": "Annen kostnad",
+    "mvaRate": 25,
+    "confidence": "YELLOW"
+  }
+}

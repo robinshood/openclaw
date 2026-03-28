@@ -1,0 +1,24 @@
+{
+  "organisasjonsnummer": "123456789",
+  "navn": "Test Bedrift AS",
+  "organisasjonsform": {
+    "kode": "AS",
+    "beskrivelse": "Aksjeselskap"
+  },
+  "naeringskode1": {
+    "kode": "62.010",
+    "beskrivelse": "Programmeringstjenester"
+  },
+  "antallAnsatte": 12,
+  "forretningsadresse": {
+    "adresse": ["Testveien 1"],
+    "postnummer": "0150",
+    "poststed": "OSLO",
+    "kommune": "OSLO",
+    "land": "Norge"
+  },
+  "stiftelsesdato": "2020-01-15",
+  "konkurs": false,
+  "underAvvikling": false,
+  "registrertIMvaregisteret": true
+}

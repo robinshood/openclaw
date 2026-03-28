@@ -1,0 +1,12 @@
+{
+  "value": {
+    "operatingRevenue": 1250000,
+    "operatingExpenses": 980000,
+    "costOfGoods": 320000,
+    "personnelCosts": 450000,
+    "depreciation": 45000,
+    "otherOperatingCosts": 165000,
+    "financialIncome": 12000,
+    "financialExpenses": 35000
+  }
+}

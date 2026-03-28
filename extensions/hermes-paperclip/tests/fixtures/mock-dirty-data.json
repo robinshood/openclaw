@@ -1,0 +1,45 @@
+{
+  "voucher_missing_fields": {
+    "description": "Missing date and postings"
+  },
+  "voucher_invalid_mva": {
+    "date": "2026-03-15",
+    "description": "Invalid MVA rate",
+    "postings": [
+      {
+        "accountNr": 7140,
+        "amount": 1000,
+        "mvaCode": 18,
+        "description": "Bad MVA"
+      }
+    ]
+  },
+  "customer_invalid_org": {
+    "orgNr": "12345",
+    "companyName": "Bad Org",
+    "email": "not-an-email",
+    "postalCode": "ABC",
+    "status": "active"
+  },
+  "transaction_zero_amount": {
+    "id": "tx-bad-001",
+    "date": "2026-03-15",
+    "amount": 0,
+    "description": "Zero amount",
+    "merchantName": "Test"
+  },
+  "transaction_future_date": {
+    "id": "tx-bad-002",
+    "date": "2030-01-01",
+    "amount": -500,
+    "description": "Future date",
+    "merchantName": "Future Corp"
+  },
+  "employee_missing_name": {
+    "id": 1,
+    "email": "broken@test.no",
+    "departmentId": 1,
+    "hourlyRate": 850,
+    "active": true
+  }
+}

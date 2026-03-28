@@ -1,0 +1,43 @@
+{
+  "voucher": {
+    "date": "2026-03-15",
+    "description": "SAS Eurobonus — Reisekostnad",
+    "postings": [
+      {
+        "accountNr": 7140,
+        "amount": 1250.0,
+        "mvaCode": 0,
+        "description": "SAS Eurobonus"
+      },
+      {
+        "accountNr": 2900,
+        "amount": -1250.0,
+        "description": "SAS Eurobonus"
+      }
+    ]
+  },
+  "customer": {
+    "orgNr": "123456789",
+    "companyName": "Test Bedrift AS",
+    "email": "post@testbedrift.no",
+    "postalCode": "0150",
+    "status": "active"
+  },
+  "transaction": {
+    "id": "tx-001",
+    "date": "2026-03-15",
+    "amount": -1250.0,
+    "description": "SAS EUROBONUS",
+    "merchantName": "SAS Eurobonus",
+    "currency": "NOK"
+  },
+  "employee": {
+    "id": 1,
+    "firstName": "Ola",
+    "lastName": "Nordmann",
+    "email": "ola@testbedrift.no",
+    "departmentId": 1,
+    "hourlyRate": 850,
+    "active": true
+  }
+}
