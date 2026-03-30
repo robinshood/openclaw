@@ -172,4 +172,41 @@ describe("InformationNeedsModel", () => {
       expect(calculateConfidence(reqs)).toBe(50);
     });
   });
+
+  describe("error paths (§8)", () => {
+    it("collectDataPoint with non-existent field leaves model unchanged", () => {
+      let model = createInformationNeeds(accountingCompany);
+      const beforeConfidence = model.confidence;
+      model = collectDataPoint(model, "nonexistent_field_xyz", "value");
+      // No requirement matches, so no status change — confidence stays the same
+      expect(model.confidence).toBe(beforeConfidence);
+    });
+
+    it("handles unknown NACE code with only base requirements", () => {
+      const model = createInformationNeeds({
+        companyOrgNumber: "111111111",
+        companyName: "Unknown Industry AS",
+        industry: "Unknown",
+        naceCode: "99.999",
+      });
+      expect(model.requirements.length).toBe(7); // Only base
+      // Should still be functional
+      const needs = getNextDataNeeds(model);
+      expect(needs.length).toBe(7);
+    });
+
+    it("confidence stays 0 when all fields remain missing", () => {
+      const model = createInformationNeeds(accountingCompany);
+      expect(model.confidence).toBe(0);
+      expect(canAdvancePhase(model)).toBe(false);
+    });
+
+    it("advancePhase at implementation phase returns same model", () => {
+      let model = createInformationNeeds(accountingCompany);
+      // Force to implementation phase
+      model = { ...model, phase: "implementation" as const };
+      const advanced = advancePhase(model);
+      expect(advanced.phase).toBe("implementation");
+    });
+  });
 });

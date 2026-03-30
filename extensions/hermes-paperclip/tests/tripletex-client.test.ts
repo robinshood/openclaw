@@ -274,4 +274,63 @@ describe("TripletexClient", () => {
       "should pass through",
     );
   });
+
+  // --- Error path tests (§8) ---
+
+  it("handles malformed JSON response", async () => {
+    const badJsonTransport: HttpTransport = {
+      async get() {
+        return { status: 200, body: "not valid json {{{" };
+      },
+      async post() {
+        return { status: 200, body: "not valid json" };
+      },
+    };
+    const client = createClient(badJsonTransport);
+    await expect(client.getVouchers("2024-01-01", "2024-01-31")).rejects.toThrow();
+  });
+
+  it("handles HTTP 429 rate limit response", async () => {
+    const rateLimitTransport: HttpTransport = {
+      async get() {
+        return { status: 429, body: "Rate limit exceeded" };
+      },
+      async post() {
+        return { status: 429, body: "Rate limit exceeded" };
+      },
+    };
+    const client = createClient(rateLimitTransport);
+    await expect(client.getEmployees()).rejects.toThrow(TripletexClientError);
+    try {
+      await client.getEmployees();
+    } catch (e) {
+      expect((e as TripletexClientError).status).toBe(429);
+    }
+  });
+
+  it("handles HTTP 401 unauthorized", async () => {
+    const authFailTransport: HttpTransport = {
+      async get() {
+        return { status: 401, body: "Unauthorized" };
+      },
+      async post() {
+        return { status: 401, body: "Unauthorized" };
+      },
+    };
+    const client = createClient(authFailTransport);
+    await expect(client.getCustomers()).rejects.toThrow(TripletexClientError);
+  });
+
+  it("handles network timeout (transport throws)", async () => {
+    const timeoutTransport: HttpTransport = {
+      async get() {
+        throw new Error("network timeout");
+      },
+      async post() {
+        throw new Error("network timeout");
+      },
+    };
+    const client = createClient(timeoutTransport);
+    await expect(client.getVouchers("2024-01-01", "2024-01-31")).rejects.toThrow("network timeout");
+  });
 });

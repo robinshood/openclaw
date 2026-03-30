@@ -183,7 +183,7 @@ Layer 6 (mission-control): dashboard.ts, reporter.ts, widgets/
 
 ## Test Summary
 
-- **Unit tests:** 140 passing
+- **Unit tests:** 159 passing
 - **Integration tests:** 10 (skip when tokens not set)
-- **Total test files:** 14
+- **Total test files:** 14 (12 unit + 2 integration)
 - **Coverage:** Not yet measured (run `pnpm test:coverage`)

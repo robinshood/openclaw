@@ -102,4 +102,53 @@ describe("BrregClient", () => {
     const nace = await client.getPrimaryNace("123456789");
     expect(nace).toBeNull();
   });
+
+  // --- Error path tests (§8) ---
+
+  it("rejects org number with letters", async () => {
+    const client = new BrregClient({ config: createConfig(), transport: createMockTransport() });
+    await expect(client.getEnhet("12345ABCD")).rejects.toThrow("must be 9 digits");
+  });
+
+  it("rejects org number with special characters", async () => {
+    const client = new BrregClient({ config: createConfig(), transport: createMockTransport() });
+    await expect(client.getEnhet("123-456-7")).rejects.toThrow("must be 9 digits");
+  });
+
+  it("handles network failure in transport", async () => {
+    const failTransport: BrregHttpTransport = {
+      async get() {
+        throw new Error("ECONNREFUSED");
+      },
+    };
+    const client = new BrregClient({ config: createConfig(), transport: failTransport });
+    await expect(client.getEnhet("123456789")).rejects.toThrow("ECONNREFUSED");
+  });
+
+  it("handles empty search results", async () => {
+    const emptyTransport: BrregHttpTransport = {
+      async get() {
+        return {
+          status: 200,
+          body: JSON.stringify({
+            page: { size: 20, totalElements: 0, totalPages: 0, number: 0 },
+          }),
+        };
+      },
+    };
+    const client = new BrregClient({ config: createConfig(), transport: emptyTransport });
+    const result = await client.searchEnheter("Nonexistent Company XYZ");
+    expect(result._embedded).toBeUndefined();
+    expect(result.page.totalElements).toBe(0);
+  });
+
+  it("handles HTTP 500 from BRREG", async () => {
+    const serverErrorTransport: BrregHttpTransport = {
+      async get() {
+        return { status: 500, body: "Internal Server Error" };
+      },
+    };
+    const client = new BrregClient({ config: createConfig(), transport: serverErrorTransport });
+    await expect(client.getEnhet("123456789")).rejects.toThrow(BrregClientError);
+  });
 });
