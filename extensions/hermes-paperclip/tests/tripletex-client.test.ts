@@ -3,6 +3,67 @@ import { loadEttosConfig } from "../src/shared/config/env.ts";
 import { createSandboxGuard } from "../src/shared/config/sandbox-guard.ts";
 import { TripletexClient, TripletexClientError } from "../src/shared/tripletex-client.ts";
 import type { HttpTransport, Voucher, Customer } from "../src/shared/tripletex-client.ts";
+import type { ResultReport, BalanceSheet } from "../src/shared/tripletex-schemas.ts";
+
+const MOCK_RESULT_REPORT: ResultReport = {
+  dateFrom: "2024-01-01",
+  dateTo: "2024-01-31",
+  revenueGroups: [
+    {
+      groupName: "Salgsinntekter",
+      total: 500_000,
+      accounts: [
+        {
+          accountNumber: 3000,
+          accountName: "Salgsinntekt avgiftspliktig",
+          closingBalance: 500_000,
+        },
+      ],
+    },
+  ],
+  costGroups: [
+    {
+      groupName: "Lønnskostnader",
+      total: 200_000,
+      accounts: [{ accountNumber: 5000, accountName: "Lønn", closingBalance: 200_000 }],
+    },
+  ],
+  totalRevenue: 500_000,
+  totalCosts: 200_000,
+  operatingResult: 300_000,
+  netResult: 250_000,
+  currency: "NOK",
+};
+
+const MOCK_BALANCE_SHEET: BalanceSheet = {
+  date: "2024-01-31",
+  assetGroups: [
+    {
+      groupName: "Omløpsmidler",
+      total: 1_000_000,
+      accounts: [{ accountNumber: 1920, accountName: "Bankinnskudd", balance: 1_000_000 }],
+    },
+  ],
+  equityGroups: [
+    {
+      groupName: "Egenkapital",
+      total: 600_000,
+      accounts: [{ accountNumber: 2000, accountName: "Aksjekapital", balance: 600_000 }],
+    },
+  ],
+  liabilityGroups: [
+    {
+      groupName: "Kortsiktig gjeld",
+      total: 400_000,
+      accounts: [{ accountNumber: 2400, accountName: "Leverandørgjeld", balance: 400_000 }],
+    },
+  ],
+  totalAssets: 1_000_000,
+  totalEquity: 600_000,
+  totalLiabilities: 400_000,
+  totalEquityAndLiabilities: 1_000_000,
+  currency: "NOK",
+};
 
 function createMockTransport(): HttpTransport & {
   lastGet?: string;
@@ -12,6 +73,13 @@ function createMockTransport(): HttpTransport & {
     {
       async get(url) {
         transport.lastGet = url;
+        // Return typed report data for report endpoints
+        if (url.includes("/resultReport")) {
+          return { status: 200, body: JSON.stringify({ value: MOCK_RESULT_REPORT }) };
+        }
+        if (url.includes("/balanceSheet")) {
+          return { status: 200, body: JSON.stringify({ value: MOCK_BALANCE_SHEET }) };
+        }
         return {
           status: 200,
           body: JSON.stringify({ value: {}, values: [], count: 0, totalCount: 0 }),
@@ -117,6 +185,93 @@ describe("TripletexClient", () => {
     const client = createClient(failTransport);
     await expect(client.getVouchers("2024-01-01", "2024-01-31")).rejects.toThrow(
       TripletexClientError,
+    );
+  });
+
+  // --- Report schema tests (§1) ---
+
+  it("getResultReport returns typed ResultReport", async () => {
+    const transport = createMockTransport();
+    const client = createClient(transport);
+    const result = await client.getResultReport("2024-01-01", "2024-01-31");
+    expect(result.value.dateFrom).toBe("2024-01-01");
+    expect(result.value.dateTo).toBe("2024-01-31");
+    expect(result.value.totalRevenue).toBe(500_000);
+    expect(result.value.operatingResult).toBe(300_000);
+    expect(result.value.revenueGroups).toHaveLength(1);
+    expect(result.value.revenueGroups![0].accounts![0].accountNumber).toBe(3000);
+  });
+
+  it("getBalanceSheet returns typed BalanceSheet", async () => {
+    const transport = createMockTransport();
+    const client = createClient(transport);
+    const result = await client.getBalanceSheet("2024-01-31");
+    expect(result.value.date).toBe("2024-01-31");
+    expect(result.value.totalAssets).toBe(1_000_000);
+    expect(result.value.totalEquity).toBe(600_000);
+    expect(result.value.assetGroups).toHaveLength(1);
+    expect(result.value.assetGroups![0].accounts![0].accountName).toBe("Bankinnskudd");
+  });
+
+  it("getResultReport accepts partial report (minimal fields)", async () => {
+    const minimalTransport: HttpTransport = {
+      async get() {
+        return {
+          status: 200,
+          body: JSON.stringify({ value: { dateFrom: "2024-01-01", dateTo: "2024-01-31" } }),
+        };
+      },
+      async post() {
+        return { status: 200, body: "{}" };
+      },
+    };
+    const client = createClient(minimalTransport);
+    const result = await client.getResultReport("2024-01-01", "2024-01-31");
+    expect(result.value.dateFrom).toBe("2024-01-01");
+    expect(result.value.totalRevenue).toBeUndefined();
+  });
+
+  it("getResultReport rejects invalid report data (missing dateFrom)", async () => {
+    const badTransport: HttpTransport = {
+      async get() {
+        return {
+          status: 200,
+          body: JSON.stringify({ value: { totalRevenue: 100 } }),
+        };
+      },
+      async post() {
+        return { status: 200, body: "{}" };
+      },
+    };
+    const client = createClient(badTransport);
+    await expect(client.getResultReport("2024-01-01", "2024-01-31")).rejects.toThrow();
+  });
+
+  it("getBalanceSheet accepts report with extra unknown fields (passthrough)", async () => {
+    const extendedTransport: HttpTransport = {
+      async get() {
+        return {
+          status: 200,
+          body: JSON.stringify({
+            value: {
+              date: "2024-01-31",
+              totalAssets: 500_000,
+              unknownFutureField: "should pass through",
+              deepNested: { a: { b: 1 } },
+            },
+          }),
+        };
+      },
+      async post() {
+        return { status: 200, body: "{}" };
+      },
+    };
+    const client = createClient(extendedTransport);
+    const result = await client.getBalanceSheet("2024-01-31");
+    expect(result.value.date).toBe("2024-01-31");
+    // Passthrough fields should survive
+    expect((result.value as Record<string, unknown>).unknownFutureField).toBe(
+      "should pass through",
     );
   });
 });

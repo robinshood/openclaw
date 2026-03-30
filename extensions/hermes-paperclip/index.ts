@@ -109,6 +109,22 @@ export type {
 } from "./src/shared/tripletex-client.ts";
 export { TripletexClient as TripletexAPI } from "./src/shared/tripletex-client.ts";
 
+// Tripletex Report Schemas
+export {
+  ResultReportSchema,
+  BalanceSheetSchema,
+  ResultReportAccountSchema,
+  BalanceSheetAccountSchema,
+} from "./src/shared/tripletex-schemas.ts";
+export type {
+  ResultReport,
+  ResultReportAccount,
+  ResultReportGroup,
+  BalanceSheet,
+  BalanceSheetAccount,
+  BalanceSheetGroup,
+} from "./src/shared/tripletex-schemas.ts";
+
 // BRREG Client
 export {
   BrregClient,
