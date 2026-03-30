@@ -84,3 +84,36 @@ All agent state lives in Notion (single source of truth). Agents communicate via
 | `NOTION_API_KEY`       | Yes       | Notion integration token                                 |
 | `NOTION_DATABASE_ID`   | Yes       | Main database ID                                         |
 | `BRREG_BASE_URL`       | No        | Defaults to `https://data.brreg.no/enhetsregisteret/api` |
+
+### Integration test variables (optional)
+
+| Variable                  | Description                                          |
+| ------------------------- | ---------------------------------------------------- |
+| `NOTION_AGENT_LIBRARY_DB` | Database ID for the Agent Library (bridge E2E tests) |
+| `NOTION_TEST_AGENT_PAGE`  | A specific agent page ID for docset parsing tests    |
+| `NOTION_ROSTER_DB`        | Database ID for the Agent Roster (register tests)    |
+
+## Setup: Running Integration Tests
+
+Integration tests are opt-in and skip automatically when tokens are missing.
+
+```bash
+# Tripletex sandbox integration tests
+ETTOS_ENV=sandbox \
+  TRIPLETEX_TOKEN=your-sandbox-token \
+  TRIPLETEX_COMPANY_ID=your-company-id \
+  pnpm --filter @openclaw/hermes-paperclip test:integration
+
+# Notion MCP bridge integration tests
+NOTION_API_KEY=your-notion-token \
+  NOTION_AGENT_LIBRARY_DB=your-db-id \
+  pnpm --filter @openclaw/hermes-paperclip test:integration
+
+# All integration tests at once
+ETTOS_ENV=sandbox \
+  TRIPLETEX_TOKEN=xxx TRIPLETEX_COMPANY_ID=yyy \
+  NOTION_API_KEY=zzz NOTION_AGENT_LIBRARY_DB=www \
+  pnpm --filter @openclaw/hermes-paperclip test:integration
+```
+
+Unit tests (no tokens needed): `npx vitest run --config vitest.extensions.config.ts extensions/hermes-paperclip`
