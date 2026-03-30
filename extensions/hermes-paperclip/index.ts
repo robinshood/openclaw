@@ -81,3 +81,119 @@ export type {
 // Sandbox
 export { runScenario } from "./sandbox/simulator.ts";
 export { createSystemregnskapScenario } from "./sandbox/scenarios/systemregnskap.ts";
+
+// --- ettOS v2 modules ---
+
+// Environment & Sandbox Guard
+export { loadEttosConfig, isSandbox, isProduction, EttosEnv } from "./src/shared/config/env.ts";
+export type { EttosConfig } from "./src/shared/config/env.ts";
+export { createSandboxGuard, SandboxGuardError } from "./src/shared/config/sandbox-guard.ts";
+export type {
+  SandboxGuard,
+  WriteOperation,
+  HumanApprovalFn,
+} from "./src/shared/config/sandbox-guard.ts";
+
+// Tripletex API Client
+export {
+  TripletexClient,
+  TripletexClientError,
+  createFetchTransport,
+} from "./src/shared/tripletex-client.ts";
+export type {
+  Voucher,
+  VoucherLine,
+  Customer,
+  TimesheetEntry,
+  HttpTransport,
+} from "./src/shared/tripletex-client.ts";
+export { TripletexClient as TripletexAPI } from "./src/shared/tripletex-client.ts";
+
+// BRREG Client
+export {
+  BrregClient,
+  BrregClientError,
+  createBrregFetchTransport,
+} from "./src/shared/brreg-client.ts";
+export type {
+  BrregEnhet,
+  Nace,
+  Adresse,
+  BrregSearchResult,
+  BrregHttpTransport,
+} from "./src/shared/brreg-client.ts";
+
+// PARS Scoring Engine (8-dimensional)
+export {
+  calculateParsScore,
+  classifyTier,
+  buildParsResult,
+  normalizeVolume,
+  normalizeTime,
+  normalizeErrorRate,
+  DEFAULT_PARS_WEIGHTS,
+  ParsDimension,
+  ParsTier,
+} from "./src/shared/scoring/pars.ts";
+export type { ParsResult, ParsWeights, DimensionScore } from "./src/shared/scoring/pars.ts";
+
+// WSJF Prioritization
+export {
+  calculateWsjf,
+  calculateCostOfDelay,
+  rankByWsjf,
+  quickWsjf,
+} from "./src/shared/scoring/wsjf.ts";
+export type { WsjfItem, CostOfDelay } from "./src/shared/scoring/wsjf.ts";
+
+// Hermes Intelligence — Information Needs
+export {
+  createInformationNeeds,
+  collectDataPoint,
+  calculateConfidence,
+  getNextDataNeeds,
+  canAdvancePhase,
+  advancePhase,
+  DataCategory,
+  DataPriority,
+  CollectionStatus,
+  Phase,
+} from "./src/hermes/information-needs.ts";
+export type { InformationNeedsModel, DataRequirement } from "./src/hermes/information-needs.ts";
+
+// Bridge — Flow → Runtime
+export {
+  parseAgentDocset,
+  parseIdentityBlock,
+  parseInstructionBlock,
+  parseModesPolicyBlock,
+  parseNorthStarBlock,
+  parseProtocolBlock,
+  AgentPackage,
+  AgentDocsetStatus,
+  FlowMode,
+} from "./src/bridge/docset-parser.ts";
+export type {
+  AgentDocset,
+  IdentityBlock,
+  InstructionBlock,
+  ModesPolicy,
+  NorthStar,
+  Protocol,
+} from "./src/bridge/docset-parser.ts";
+
+export {
+  mapFlowToRuntime,
+  mapModesPolicy,
+  isTransitionAllowed,
+  RuntimeMode,
+} from "./src/bridge/mode-mapper.ts";
+export type { RuntimeModeConfig } from "./src/bridge/mode-mapper.ts";
+
+export {
+  syncAgentStatus,
+  syncSandboxResults,
+  registerInRoster,
+  passesQaGate,
+} from "./src/bridge/sync-back.ts";
+export type { AgentRuntimeStatus } from "./src/bridge/sync-back.ts";
