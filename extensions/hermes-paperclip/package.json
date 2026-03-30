@@ -3,6 +3,9 @@
   "version": "2026.3.28",
   "private": true,
   "type": "module",
+  "scripts": {
+    "test:integration": "vitest run --config ../../vitest.extensions.config.ts src/**/__integration__/**/*.test.ts"
+  },
   "dependencies": {
     "yaml": "^2.7.1",
     "zod": "^4.3.6"

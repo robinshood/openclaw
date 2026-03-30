@@ -1,6 +1,8 @@
 import { z } from "zod";
 import type { EttosConfig } from "./config/env.ts";
 import type { SandboxGuard } from "./config/sandbox-guard.ts";
+import { ResultReportSchema, BalanceSheetSchema } from "./tripletex-schemas.ts";
+import type { ResultReport, BalanceSheet } from "./tripletex-schemas.ts";
 
 /**
  * Tripletex REST API v2 client.
@@ -210,12 +212,17 @@ export class TripletexClient {
 
   // --- Reports (Portalklar) ---
 
-  async getResultReport(dateFrom: string, dateTo: string): Promise<TripletexResponse<unknown>> {
-    return this.get("/resultReport", { dateFrom, dateTo });
+  async getResultReport(
+    dateFrom: string,
+    dateTo: string,
+  ): Promise<TripletexResponse<ResultReport>> {
+    const raw = await this.get<TripletexResponse<unknown>>("/resultReport", { dateFrom, dateTo });
+    return { value: ResultReportSchema.parse(raw.value) };
   }
 
-  async getBalanceSheet(date: string): Promise<TripletexResponse<unknown>> {
-    return this.get("/balanceSheet", { date });
+  async getBalanceSheet(date: string): Promise<TripletexResponse<BalanceSheet>> {
+    const raw = await this.get<TripletexResponse<unknown>>("/balanceSheet", { date });
+    return { value: BalanceSheetSchema.parse(raw.value) };
   }
 
   // --- Customers (Velkomst) ---

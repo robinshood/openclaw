@@ -1,0 +1,247 @@
+# Konteringsregler — Norwegian accounting classification rules
+# DOMAIN REVIEW NEEDED: These are starter rules. A certified accountant must review them.
+version: "0.1.0"
+lastUpdated: "2026-03-30"
+
+rules:
+  - id: KR-001
+    category: "Reise — fly"
+    accountNumber: 7140
+    accountName: Reisekostnad
+    vatCode: 0
+    vatDescription: "Ingen MVA (transport)"
+    matchPatterns:
+      merchantKeywords: [sas, norwegian, wideroe, widerøe, flyr, ryanair, easyjet]
+      mccCodes: ["3000", "3001", "3002", "3003", "4511"]
+      descriptionPatterns: ["\\bfly\\b", "\\bflight\\b", "\\bairline\\b"]
+    confidence: high
+    requiresReview: false
+    source: manual
+
+  - id: KR-002
+    category: "Reise — hotell"
+    accountNumber: 7140
+    accountName: Reisekostnad
+    vatCode: 11
+    vatDescription: "12% MVA (overnatting)"
+    matchPatterns:
+      merchantKeywords: [hotel, hotell, scandic, thon, comfort, clarion, radisson, booking.com, airbnb]
+      mccCodes: ["7011"]
+      descriptionPatterns: ["\\bhotell?\\b", "\\bovernatting\\b", "\\baccommodation\\b"]
+    confidence: high
+    requiresReview: false
+    source: manual
+
+  - id: KR-003
+    category: "Reise — taxi"
+    accountNumber: 7140
+    accountName: Reisekostnad
+    vatCode: 1
+    vatDescription: "25% MVA"
+    matchPatterns:
+      merchantKeywords: [taxi, uber, bolt, oslo taxi, norgestaxi]
+      mccCodes: ["4121"]
+      descriptionPatterns: ["\\btaxi\\b", "\\buber\\b"]
+    confidence: high
+    requiresReview: false
+    source: manual
+
+  - id: KR-004
+    category: "Reise — tog/buss"
+    accountNumber: 7140
+    accountName: Reisekostnad
+    vatCode: 0
+    vatDescription: "Ingen MVA (kollektiv)"
+    matchPatterns:
+      merchantKeywords: [vy, ruter, entur, kolumbus, atb, skyss, flybussen]
+      mccCodes: ["4011", "4111", "4112"]
+      descriptionPatterns: ["\\btog\\b", "\\btrain\\b", "\\bbuss\\b", "\\bbus\\b"]
+    confidence: high
+    requiresReview: false
+    source: manual
+
+  - id: KR-005
+    category: Representasjon
+    accountNumber: 7350
+    accountName: Representasjon
+    vatCode: 0
+    vatDescription: "Ingen MVA-fradrag (representasjon)"
+    matchPatterns:
+      merchantKeywords: [restaurant, eatery, brasserie, bistro]
+      mccCodes: ["5812", "5813", "5814"]
+      descriptionPatterns: ["\\brepresentasjon\\b", "\\bmiddag\\b", "\\blunsj\\b"]
+      amountRange:
+        min: 500
+    confidence: medium
+    requiresReview: true
+    source: manual
+    notes: "Amounts over NOK 500 at restaurants likely representasjon; requires review"
+
+  - id: KR-006
+    category: Kontorrekvisita
+    accountNumber: 6540
+    accountName: Inventar og utstyr
+    vatCode: 1
+    vatDescription: "25% MVA"
+    matchPatterns:
+      merchantKeywords: [staples, clas ohlson, jula, biltema, panduro, kontorland]
+      mccCodes: ["5943", "5944"]
+      descriptionPatterns: ["\\bkontor\\b", "\\boffice\\b", "\\brekvisita\\b"]
+    confidence: medium
+    requiresReview: false
+    source: manual
+
+  - id: KR-007
+    category: "IT — programvare/abonnement"
+    accountNumber: 6940
+    accountName: IT-kostnader og programvare
+    vatCode: 1
+    vatDescription: "25% MVA"
+    matchPatterns:
+      merchantKeywords: [microsoft, google, apple, adobe, slack, notion, github, aws, azure, dropbox, zoom, atlassian]
+      mccCodes: ["5734", "5817", "7372"]
+      descriptionPatterns: ["\\bsubscription\\b", "\\babonnement\\b", "\\bsoftware\\b", "\\blisens\\b"]
+    confidence: high
+    requiresReview: false
+    source: manual
+
+  - id: KR-008
+    category: Telefon/data
+    accountNumber: 6900
+    accountName: Telefon og datakommunikasjon
+    vatCode: 1
+    vatDescription: "25% MVA"
+    matchPatterns:
+      merchantKeywords: [telenor, telia, ice, phonero, mycall, chili mobil, altibox, get]
+      mccCodes: ["4812", "4813", "4814"]
+      descriptionPatterns: ["\\btelefon\\b", "\\bmobil\\b", "\\binternet\\b", "\\bbredband\\b"]
+    confidence: high
+    requiresReview: false
+    source: manual
+
+  - id: KR-009
+    category: Drivstoff
+    accountNumber: 7000
+    accountName: Drivstoff
+    vatCode: 1
+    vatDescription: "25% MVA"
+    matchPatterns:
+      merchantKeywords: [circle k, esso, shell, uno-x, best, st1, yx]
+      mccCodes: ["5541", "5542"]
+      descriptionPatterns: ["\\bbensin\\b", "\\bdiesel\\b", "\\bfuel\\b", "\\bdrivstoff\\b", "\\blading\\b"]
+    confidence: high
+    requiresReview: false
+    source: manual
+
+  - id: KR-010
+    category: Parkering
+    accountNumber: 7080
+    accountName: Bilkostnader
+    vatCode: 1
+    vatDescription: "25% MVA"
+    matchPatterns:
+      merchantKeywords: [easypark, apcoa, europark, onepark, q-park]
+      mccCodes: ["7523"]
+      descriptionPatterns: ["\\bparkering\\b", "\\bparking\\b"]
+    confidence: high
+    requiresReview: false
+    source: manual
+
+  - id: KR-011
+    category: Porto/frakt
+    accountNumber: 7040
+    accountName: Porto og frakt
+    vatCode: 0
+    vatDescription: "Ingen MVA (posttjenester)"
+    matchPatterns:
+      merchantKeywords: [posten, postnord, bring, dhl, ups, fedex]
+      mccCodes: ["4215", "5962"]
+      descriptionPatterns: ["\\bporto\\b", "\\bfrakt\\b", "\\bshipping\\b", "\\bpakke\\b"]
+    confidence: medium
+    requiresReview: false
+    source: manual
+
+  - id: KR-012
+    category: Forsikring
+    accountNumber: 7500
+    accountName: Forsikringskostnad
+    vatCode: 0
+    vatDescription: "Ingen MVA (forsikring)"
+    matchPatterns:
+      merchantKeywords: ["if ", gjensidige, tryg, storebrand, fremtind, codan, eika]
+      mccCodes: ["6300"]
+      descriptionPatterns: ["\\bforsikring\\b", "\\binsurance\\b"]
+    confidence: medium
+    requiresReview: true
+    source: manual
+    notes: "Verify insurance type — some are employee benefits (different account)"
+
+  - id: KR-013
+    category: Faglitteratur/kurs
+    accountNumber: 6860
+    accountName: Kurs og faglig oppdatering
+    vatCode: 0
+    vatDescription: "Ingen MVA (undervisning)"
+    matchPatterns:
+      merchantKeywords: [akademika, norli, adlibris, udemy, coursera, fagbokforlaget]
+      mccCodes: ["5942", "8299"]
+      descriptionPatterns: ["\\bkurs\\b", "\\bcourse\\b", "\\bkonferanse\\b", "\\bseminar\\b", "\\bbok\\b"]
+    confidence: medium
+    requiresReview: false
+    source: manual
+
+  - id: KR-014
+    category: Renhold/vedlikehold
+    accountNumber: 6390
+    accountName: Renhold og vedlikehold
+    vatCode: 1
+    vatDescription: "25% MVA"
+    matchPatterns:
+      merchantKeywords: [iss, coor, renholdsverket]
+      mccCodes: ["7349"]
+      descriptionPatterns: ["\\brendhold\\b", "\\bvedlikehold\\b", "\\bcleaning\\b", "\\bmaintenance\\b"]
+    confidence: medium
+    requiresReview: false
+    source: manual
+
+  - id: KR-015
+    category: Reklame/markedsføring
+    accountNumber: 7330
+    accountName: Reklame og markedsføring
+    vatCode: 1
+    vatDescription: "25% MVA"
+    matchPatterns:
+      merchantKeywords: [facebook, meta, google ads, linkedin, instagram, tiktok]
+      mccCodes: ["7311", "7312"]
+      descriptionPatterns: ["\\breklame\\b", "\\bannons\\b", "\\bads\\b", "\\bmarketing\\b", "\\bkampanje\\b"]
+    confidence: medium
+    requiresReview: false
+    source: manual
+
+  - id: KR-016
+    category: Husleie
+    accountNumber: 6300
+    accountName: Husleie
+    vatCode: 6
+    vatDescription: "Avgiftsfritt utleie (med frivillig registrering: 25% MVA)"
+    matchPatterns:
+      descriptionPatterns: ["\\bhusleie\\b", "\\bleie\\b.*\\blokal", "\\brent\\b"]
+    confidence: low
+    requiresReview: true
+    source: manual
+    notes: "VAT depends on whether landlord is voluntarily registered for MVA; always review"
+
+  - id: KR-017
+    category: Gaver til ansatte
+    accountNumber: 5990
+    accountName: Annen personalkostnad
+    vatCode: 0
+    vatDescription: "Ingen MVA-fradrag (personalytelse)"
+    matchPatterns:
+      descriptionPatterns: ["\\bgave\\b", "\\bjulegave\\b", "\\bbursdag\\b"]
+      amountRange:
+        max: 5000
+    confidence: low
+    requiresReview: true
+    source: manual
+    notes: "Tax-free gift limit: NOK 5,000/year"

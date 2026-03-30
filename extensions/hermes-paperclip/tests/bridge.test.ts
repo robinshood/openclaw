@@ -209,3 +209,52 @@ describe("ModeMapper", () => {
     expect(implicit.allowed).toBe(true);
   });
 });
+
+describe("Error paths (§8)", () => {
+  describe("DocsetParser malformed pages", () => {
+    it("handles page with no properties at all", () => {
+      const page = { id: "empty-page" };
+      const identity = parseIdentityBlock(page);
+      expect(identity.agentId).toBe("empty-page");
+      expect(identity.name).toBe("unknown");
+    });
+
+    it("handles page with empty properties object", () => {
+      const page = { id: "bare-page", properties: {} };
+      const identity = parseIdentityBlock(page);
+      expect(identity.agentId).toBe("bare-page");
+    });
+
+    it("parses empty instruction content gracefully", () => {
+      const instructions = parseInstructionBlock("");
+      expect(instructions.role).toBe("");
+      expect(instructions.constraints).toHaveLength(0);
+      expect(instructions.successCriteria).toHaveLength(0);
+    });
+
+    it("parses modes policy with missing sections", () => {
+      const policy = parseModesPolicyBlock("# Default Mode\nbuild\n");
+      expect(policy.defaultMode).toBe("build");
+      expect(policy.allowedModes).toEqual(["build"]);
+      expect(policy.transitionRules).toHaveLength(0);
+    });
+
+    it("parses north star with empty metrics", () => {
+      const ns = parseNorthStarBlock("# Mission\nAutomate everything\n# Metrics\n");
+      expect(ns.mission).toContain("Automate");
+      expect(ns.metrics).toHaveLength(0);
+    });
+  });
+
+  describe("ModeMapper edge cases", () => {
+    it("rejects transition between disallowed modes", () => {
+      const policy: ModesPolicy = {
+        defaultMode: "orchestrate",
+        allowedModes: ["orchestrate"],
+        transitionRules: [],
+      };
+      const result = isTransitionAllowed(policy, "orchestrate", "maintain");
+      expect(result.allowed).toBe(false);
+    });
+  });
+});
